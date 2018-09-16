@@ -57,6 +57,7 @@ client.on('message', function(message)
             for(var i = listMessages.size - args[1]; i < listMessages.size; i++)
             {
               message.channel.send(listMessages.get(i));
+              console.log(listMessages.get(i));
             }
           }
         }
