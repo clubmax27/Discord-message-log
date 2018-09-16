@@ -36,36 +36,38 @@ client.on('message', function(message)
     switch (command)
     {
       case "VIEW":
-        if(args[0].toUpperCase() == "EDITS" && args[1])
+        if(args[0])
         {
-          var messages = message.channel.messages;
-          for(var[key,msg] of messages)
+          if(args[0].toUpperCase() == "EDITS" && args[1])
           {
-            if(msg.id == args[1])
+            var messages = message.channel.messages;
+            for(var[key,msg] of messages)
             {
-              var edits = msg.edits;
-              edits = edits.reverse();
-              message.channel.send("Edits for the message ID " + args[1]);
-              edits.forEach(function(element)
+              if(msg.id == args[1])
               {
-                message.channel.send(element.content)
-              });
+                var edits = msg.edits;
+                edits = edits.reverse();
+                message.channel.send("Edits for the message ID " + args[1]);
+                edits.forEach(function(element)
+                {
+                  message.channel.send(element.content)
+                });
+              }
+            }
+          }
+          if(args[0].toUpperCase() == "MESSAGES" && args[1])
+          {
+            if(listMessages.size < args[1])
+            {
+              message.reply("Can't show more message than was scrapped (" + listMessages.size + ")");
+              return;
+            }
+            for(var i = listMessages.size - args[1]; i < listMessages.size; i++)
+            {
+              message.channel.send(listMessages.get(i));
             }
           }
         }
-        if(args[0].toUpperCase() == "MESSAGES" && args[1])
-        {
-          if(listMessages.size < args[1])
-          {
-            message.reply("Can't show more message than was scrapped (" + listMessages.size + ")");
-            return;
-          }
-          for(var i = listMessages.size - args[1]; i < listMessages.size; i++)
-          {
-            message.channel.send(listMessages.get(i));
-          }
-        }
-
         break;
 
       default:
