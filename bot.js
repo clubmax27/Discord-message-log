@@ -21,14 +21,6 @@ client.on("ready", function()
 
 client.on('message', function(message)
 {
-  var files = message.attachments;
-  var text = message.content + "\n";
-  for(var[key,file] of files)
-  {
-    text = text + file.url + "\n";
-  }
-  listMessages.set(listMessages.size, "<" + message.author.username + ">" + text);
-
   if(message.author.id == client.user.id)
   {
     const args = message.content.trim().split(/ +/g);
@@ -71,7 +63,13 @@ client.on('message', function(message)
         break;
 
       default:
-
+        var files = message.attachments;
+        var text = message.content + "\n";
+        for(var[key,file] of files)
+        {
+          text = text + file.url + "\n";
+        }
+        listMessages.set(listMessages.size, "<" + message.author.username + ">" + text);
     }
   }
 });
