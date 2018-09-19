@@ -9,10 +9,11 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 var on = true;
 var listMessages = new Map;
+var now = new Date();
 const myLoggers = require('log4js');
 
 myLoggers.configure({
-    appenders: { messagelog: { type:"file", filename: "Logs/messages.log" } },
+    appenders: { messagelog: { type:"file", filename: 'Logs/messages ' + now.getFullYear() + "-"+ now.getMonth() + "-" + now.getDate() +'.log' } },
     categories: { default: { appenders:["messagelog"], level:"ALL" } }
 });
 const logger = myLoggers.getLogger("default");
