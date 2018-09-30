@@ -9,8 +9,8 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 var on = true;
 var listMessages = new Map;
-var now = new Date();
-const myLoggers = require('log4js');
+var now = new Date(); //used to log the date of the file
+const myLoggers = require('log4js'); //used to log messages in a file
 
 myLoggers.configure({
     appenders: { messagelog: { type:"file", filename: 'Logs/messages ' + now.getFullYear() + "-"+ now.getMonth() + "-" + now.getDate() +'.log' } },
