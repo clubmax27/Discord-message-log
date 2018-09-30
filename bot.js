@@ -9,8 +9,17 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 var on = true;
 var listMessages = new Map;
+var now = new Date(); //used to log the date of the file
+const myLoggers = require('log4js'); //used to log messages in a file
 
-client.login(TOKEN);
+myLoggers.configure({
+    appenders: { messagelog: { type:"file", filename: 'Logs/messages ' + now.getFullYear() + "-"+ now.getMonth() + "-" + now.getDate() +'.log' } },
+    categories: { default: { appenders:["messagelog"], level:"ALL" } }
+});
+const logger = myLoggers.getLogger("default");
+
+
+client.login("TOKEN");
 
 client.on("ready", function()
 {
@@ -19,12 +28,28 @@ client.on("ready", function()
   console.log("Logged in");
 });
 
-client.on('message', function(message)
+
+client.on('message', function(message) 
+
 {
+  var files = message.attachments;
+  var text = message.content + "\n";
+  for(var[key,file] of files)
+  {
+    text = text + file.url + "\n";
+  }
+  listMessages.set(listMessages.size, "<" + message.author.username + ">" + text);
+  {
+	  var logger = myLoggers.getLogger('messagelog');
+	 logger.info(message.author.username + ">" + text)
+  
+	   console.log(message.author.username + ">" + text)
+	  }    
+
   if(message.author.id == client.user.id)
   {
     const args = message.content.trim().split(/ +/g);
-    const command = args.shift().toUpperCase();
+    const command = args.shift().toUpperCase();  
     switch (command)
     {
       case "VIEW":
@@ -47,6 +72,8 @@ client.on('message', function(message)
               }
             }
           }
+		  if(listMessages.size = listMessages.size +1)
+	 
           if(args[0].toUpperCase() == "MESSAGES" && args[1])
           {
             if(listMessages.size < args[1])
@@ -57,20 +84,14 @@ client.on('message', function(message)
             for(var i = listMessages.size - args[1]; i < listMessages.size; i++)
             {
               message.channel.send(listMessages.get(i));
-              console.log(listMessages.get(i));
             }
           }
         }
+		
         break;
 
       default:
-        var files = message.attachments;
-        var text = message.content + "\n";
-        for(var[key,file] of files)
-        {
-          text = text + file.url + "\n";
-        }
-        listMessages.set(listMessages.size, "<" + message.author.username + ">" + text);
+
     }
   }
 });
