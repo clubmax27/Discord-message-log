@@ -14,6 +14,7 @@ Commands :<br/>
 <br/>
 <b>view messages [Number of messages]</b><br/>
 This command shows a number of message you received<br/>
+<br/>
 <b>view edits [ID of message]</b><br/>
 This command shows all edits of a message<br/>
 To find the ID of a message, you can <b>right click<b/> on it and select <b>Copy ID<b/><br/>
